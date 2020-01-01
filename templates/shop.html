@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Shopeasy</title>
+    <link href="../static/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../static/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../static/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="../static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="../static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="../static/js/leaflet.polylineDecorator.js"></script>
+    <script src="../static/js/L.Polyline.SnakeAnim.js"></script>
+    <link  rel="stylesheet" href="../static/css/shop.css">
+    <link  rel="stylesheet" href="../static/css/animate.css">
+    <!-- <link href="../static/css/ac.css" rel="stylesheet"> -->
+    <style>
+      .holder {
+        background: white;
+        border-radius: 3px;
+        margin-right: 16px;
+      }
+      #search {
+        border: none;
+        outline: none;
+        box-shadow: none;
+        text-decoration: none;
+      }
+      #myList{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 0%;
+      }
+      li {
+        position: relative;
+        box-sizing: border-box;
+        border-radius: 5%;
+        height: 55px;
+        width: 80%;
+        box-shadow: 0 3px 8px 0 gray;
+         /* rgba(50,50,93,.05); */
+        background-color: #efebe9;
+        text-align: center;
+        list-style: none;
+        float: left;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <div class="search d-flex" id="divId">
+          <form class="container d-flex holder w-100 p-2" id="formId">
+            <input id="search" class="mr-auto w-100" type="text" placeholder="Search" aria-label="Search" name="item">
+            <i class="material-icons px-2 flex-shrink-1"  onclick="startDictation()" id="materialId" name="button">mic_none</i>
+          </form>
+          <input type="submit" name="button" class="btn btn-info" value="Add" id="add">
+        </div>
+      </div>
+    </header>
+    <section id="shopping">
+      <div class="container">
+        <div class="d-inline-flex w-100">
+          <div class="logo">
+            <i class="material-icons">shopping_cart</i>
+          </div>
+          <div class="s-list w-20">
+            <div class="">
+              <ul id="myList">
+              </ul>
+            </div>
+            <div class="path_show">
+              <button type="button" name="button" class="btn btn-info w-40" id="show">Show Path</button>
+            </div>
+          </div>
+          <div id="map">
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      var map = L.map('map').setView([34.210946,-118.436374],20);
+      L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=AvbxZlnrlnRqyilIDDsg',{
+        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+        maxZoom: 24
+      }).addTo(map);
+      // var markerOptions = { title: 'Shopeasy Mart' };
+      // var marker = L.marker([34.2107329,-118.4365886], {title: 'Shopeasy'}).addTo(map);
+      var p1 = L.polygon([
+        [34.210652, -118.436351],
+        [34.210714, -118.436667],
+        [34.211185, -118.436528],
+        [34.211131, -118.436254],
+        [34.211096, -118.436233]
+      ]).addTo(map);
+      var p2 = L.polygon([
+        [34.210714, -118.436667],
+        [34.210943,-118.436599],
+        [34.210935,-118.436555],
+        [34.210705,-118.436622]
+      ]).addTo(map);
+      p2.bindTooltip("Dairy",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var p3 = L.polygon([
+        [34.210935,-118.436555],
+        [34.210943,-118.436599],
+        [34.211135,-118.436543],
+        [34.211126,-118.436500]
+      ]).addTo(map);
+      p3.bindTooltip("Deli",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var a5 = L.polygon([
+        [34.210701,-118.436598],
+        [34.210742,-118.436587],
+        [34.210712,-118.436427],
+        [34.210669,-118.436438]
+      ]).addTo(map);
+      a5.bindTooltip("Bread",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var a4 = L.polygon([
+        [34.210787,-118.436576],
+        [34.210857,-118.436555],
+        [34.210827,-118.436395],
+        [34.210757,-118.436414]
+      ]).addTo(map);
+      a4.bindTooltip("Aisle 4",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var a3 = L.polygon([
+        [34.210902,-118.436545],
+        [34.210972,-118.436525],
+        [34.210942,-118.436365],
+        [34.210872,-118.436385]
+      ]).addTo(map);
+      a3.bindTooltip("Aisle 3",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var a2 = L.polygon([
+        [34.211017,-118.436514],
+        [34.211087,-118.436494],
+        [34.211057,-118.436334],
+        [34.210987,-118.436354]
+      ]).addTo(map);
+      a2.bindTooltip("Aisle 2",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var a1 = L.polygon([
+        [34.211133,-118.436483],
+        [34.211174,-118.436472],
+        [34.211144,-118.436322],
+        [34.211103,-118.436335]
+      ]).addTo(map);
+      a1.bindTooltip("Bread",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var cc4 = L.polygon([
+        [34.210652, -118.436351],
+        [34.210663,-118.436410],
+        [34.210758,-118.436385],
+        [34.210747,-118.436326]
+      ]).addTo(map);
+      cc4.bindTooltip("Checkout 3",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var cc3 = L.polygon([
+        [34.210747,-118.436326],
+        [34.210758,-118.436385],
+        [34.210843,-118.436363],
+        [34.210832,-118.436303]
+      ]).addTo(map);
+      cc3.bindTooltip("Checkout 3",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var cc2 = L.polygon([
+        [34.210832,-118.436303],
+        [34.210843,-118.436363],
+        [34.210925,-118.436343],
+        [34.210914,-118.436282]
+      ]).addTo(map);
+      cc2.bindTooltip("Checkout 2",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var cc1 = L.polygon([
+        [34.210914,-118.436282],
+        [34.210925,-118.436343],
+        [34.211010,-118.436321],
+        [34.210998,-118.436259]
+      ]).addTo(map);
+      cc1.bindTooltip("Checkout 1",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      var entry = L.polygon([
+        [34.210998,-118.436259],
+        [34.211010,-118.436321],
+        [34.211138,-118.436288],
+        [34.211131, -118.436254],
+        [34.211096, -118.436233]
+      ]).addTo(map);
+      entry.bindTooltip("Entry",
+      {className: 'ptt', direction: 'center', permanent: true}
+      ).openTooltip()
+      $(function() {
+			  $('#add').bind('click', function() {
+				$.getJSON('/pointer', {
+				  item: $('input[name="item"]').val(),
+				}, function(data) {
+          var i = document.getElementById("search").value;
+          var node = document.createElement("LI");
+          var textnode = document.createTextNode(i);
+          document.getElementById("search").value = "";
+          node.appendChild(textnode);
+          document.getElementById("myList").appendChild(node);
+          node.setAttribute("class", "animated fadeInDown fast");
+          var d = data.result;
+          var marker = L.marker(d).addTo(map);
+				});
+				return false;
+			  });
+
+        $('#show').bind('click', function() {
+				$.getJSON('/pathShow', function(data) {
+          var d = data.coordinates;
+          var list = data.list;
+          document.getElementById('myList').innerHTML="";
+          for(i=0;i<=list.length-1;i++)
+          {
+            var node = document.createElement("LI");
+            if(i<list.length-1) {
+            var str = "Pick up " + list[i] + " and move to " + list[i+1];
+            }
+            else {
+              var str = "Go to the checkout counter";
+            }
+            var textnode = document.createTextNode(str);
+            node.appendChild(textnode);
+            document.getElementById("myList").appendChild(node);
+            node.setAttribute("class", "animated fadeInDown fast");
+          }
+          var polyline = L.polyline(d, {weight: 3, dashArray: '5, 10', color: 'red', snakingSpeed: 15});
+          polyline.addTo(map).snakeIn();
+          var arrowHead = L.polylineDecorator(d, {
+            patterns: [
+                {
+                    offset: '100%',
+                    repeat: 0,
+                    symbol: L.Symbol.arrowHead({pixelSize: 15, polygon: false, pathOptions: {stroke: true, color: "red"}})
+                }
+            ]
+        }).addTo(map);
+				});
+				return false;
+			  });
+			});
+      function startDictation() {
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+          var recognition = new webkitSpeechRecognition();
+          recognition.continuous = false;
+          recognition.interimResults = false;
+          recognition.lang = "en-US";
+          recognition.start();
+          recognition.onresult = function(e) {
+            var temp= e.results[0][0].transcript+" ";
+            var value = '';
+            for(i=0;i<=temp.length;i++)
+            {
+              if(temp[i]!=" ")
+              {
+                value+=temp[i]
+              }
+              if(temp[i]==" ")
+              {
+                var node = document.createElement("LI");
+                var textnode = document.createTextNode(value);
+                node.appendChild(textnode);
+                document.getElementById('myList').appendChild(node);
+                node.setAttribute("class", "animated fadeInDown fast");
+                value='';
+              }
+            }
+            recognition.stop();
+          };
+          recognition.onerror = function(e)
+          {
+            recognition.stop();
+          }
+        }
+      }
+      function autocomplete(inp, arr) {
+        var currentFocus;
+        inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        closeAllLists();
+        if (!val) { return false;}
+          currentFocus = -1;
+          formElement = document.getElementById("divId")
+          a = document.createElement("DIV");
+          a.setAttribute("id", this.id + "autocomplete-list");
+          a.setAttribute("class", "autocomplete-items");
+          formElement.parentNode.appendChild(a);
+          a.style.position = "absolute";
+          a.style.borderBottomLeftRadius = "7px";
+          a.style.borderBottomRightRadius = "7px";
+          // a.style.marginLeft="5px";
+          a.style.zIndex = '100000';;
+          a.style.backgroundColor = "white";
+          a.style.boxSizing= "border-box"
+          a.style.height="150PX";
+          a.style.overflowY="auto";
+          a.style.width=document.getElementById('formId').offsetWidth+"px";
+
+
+        for (i = 0; i < arr.length; i++) {
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            b = document.createElement("DIV");
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            b.style.boxSizing= "border-box";
+            b.style.paddingLeft="1%";
+            b.addEventListener("click", function(e) {
+              inp.value = this.getElementsByTagName("input")[0].value;
+              closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+      });
+      inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        currentFocus++;
+        addActive(x);
+        } else if (e.keyCode == 38) {
+        currentFocus--;
+        addActive(x);
+        } else if (e.keyCode == 13) {
+          e.preventDefault();
+          if (currentFocus > -1) {
+            if (x) x[currentFocus].click();
+            }
+        }
+      });
+    function addActive(x) {
+      if (!x) return false;
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+    });
+  }
+  $('#search').bind('click', function() {
+    $.getJSON('/autocomplete', function(data) {
+      var itemsInDatabase = data.itemsFromDatabase;
+      autocomplete(document.getElementById("search"), itemsInDatabase);
+      });
+  });
+  //itemsInDatabase = list(itemsInDatabase);
+
+
+    </script>
+  </body>
+</html>
