@@ -1,15 +1,12 @@
-apyori==1.1.1
 astroid==2.2.5
 attrs==19.3.0
 backcall==0.1.0
 bleach==3.1.0
 Click==7.0
-cmake==3.14.4
 colorama==0.4.1
 cycler==0.10.0
 decorator==4.4.0
 defusedxml==0.6.0
-dlib==19.17.0
 entrypoints==0.3
 Flask==1.0.2
 gunicorn==20.0.4
@@ -39,7 +36,6 @@ more-itertools==7.2.0
 nbconvert==5.6.0
 nbformat==4.4.0
 networkx==2.4
-nltk==3.4.1
 notebook==6.0.1
 numpy==1.16.3
 opencv-python==4.1.0.25
