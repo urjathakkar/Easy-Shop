@@ -1,1 +1,1 @@
-web: gunicorn app:orTools
+web: gunicorn orTools:app
